@@ -1,0 +1,178 @@
+CREATE DATABASE techWarrior;
+
+USE techWarrior;
+
+CREATE TABLE Categoria (
+    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50)
+);
+
+CREATE TABLE Administradores (
+    id_administrador INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(40),
+    apellido VARCHAR(40),
+    telefono VARCHAR(10),
+    direccion VARCHAR(100),
+    correo VARCHAR(50) UNIQUE,
+    clave VARCHAR(10),
+    cargo VARCHAR(20)
+);
+
+CREATE TABLE Producto (
+    id_producto INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(80),
+    descripcion VARCHAR(100),
+    precio DECIMAL(10, 2),
+    id_categoria INT,
+    id_administrador INT,
+    FOREIGN KEY (id_categoria) REFERENCES Categoria (id_categoria),
+    FOREIGN KEY (id_administrador) REFERENCES Administradores(id_administrador)
+);
+
+CREATE TABLE Inventario (
+    id_inventario INT AUTO_INCREMENT PRIMARY KEY,
+    cantidad INT,
+    id_producto INT,
+    id_administrador INT,
+    FOREIGN KEY (id_producto) REFERENCES Producto (id_producto),
+    FOREIGN KEY (id_administrador) REFERENCES Administradores(id_administrador)
+);
+
+CREATE TABLE Usuario (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(40),
+    apellido VARCHAR(40),
+    correo VARCHAR(50) UNIQUE,
+    clave VARCHAR(10),
+    telefono VARCHAR(10),
+    direccion VARCHAR(255)
+);
+
+CREATE TABLE Ordenes (
+    id_orden INT AUTO_INCREMENT PRIMARY KEY,
+    id_usuario INT,
+    id_producto INT,
+    fecha DATETIME,
+    cantidad INT,
+    total DECIMAL(10, 2),
+    FOREIGN KEY (id_usuario) REFERENCES Usuario(id_usuario),
+    FOREIGN KEY (id_producto) REFERENCES Producto(id_producto)
+);
+
+-- INSERT DE DATOS administradores
+
+INSERT INTO `administradores`(`nombre`, `apellido`, `telefono`, `direccion`, `correo`, `clave`, `cargo`) VALUES 
+('Andres Mauricio', 'Gomez Murcia', '3022489328', 'Carrera 3 # 1c-92', 'andresgomezm918@gmail.com', 'Andres123', 'Bases de Datos'),
+('Christian David', 'Lezcano Mendieta', '3102866494', 'Carrera 3 # 1c-92', 'cdavidl@gmail.com', 'Christian123', 'Project Manager'),
+('Marco Abel', 'Prieto Silva', '3102807048', 'Carrera 3 # 1c-92', 'mabelp@gmail.com', 'Marco123', 'Front-end'),
+('Cristian David', 'Rodríguez Moreno', '3102927038', 'Carrera 3 # 1c-92', 'cdavidr@gmail.com', 'Cristian123', 'Back-End');
+
+
+-- INSERT DE DATOS categoría
+
+INSERT INTO `categoria`(`nombre`) VALUES 
+('pcGamer'),
+('tecladoMouse'),
+('perifericos');
+
+
+-- INSERT DE DATOS producto
+
+INSERT INTO `producto`(`nombre`, `descripcion`, `precio`, `id_categoria`, `id_administrador`) VALUES 
+('PC Gamer Alpha', 'PC de alta gama con procesador Intel i9, 32GB RAM, y GPU RTX 3080', 2500000, 1, 1),
+('PC Gamer Beta', 'PC de gama media con procesador Ryzen 5, 16GB RAM, y GPU GTX 1660', 12000000, 1, 2),
+('PC Gamer Gamma', 'PC de alta gama con procesador Ryzen 7, 32GB RAM, y GPU RTX 3070', 2200000, 1, 3),
+('PC Gamer Delta', 'PC de gama media con procesador Intel i5, 16GB RAM, y GPU GTX 1650', 1000000, 1, 4),
+('PC Gamer Epsilon', 'PC de gama alta con procesador Intel i7, 32GB RAM, y GPU RTX 3060', 2000000, 1, 1),
+('PC Gamer Zeta', 'PC de entrada con procesador Ryzen 3, 8GB RAM, y GPU RX 570', 1800000, 1, 2),
+('PC Gamer Eta', 'PC de alta gama con procesador Intel i9, 64GB RAM, y GPU RTX 3090', 3000000, 1, 3),
+('PC Gamer Theta', 'PC de gama media con procesador Ryzen 5, 16GB RAM, y GPU RTX 2060', 1500000, 1, 4),
+('PC Gamer Iota', 'PC de entrada con procesador Intel i3, 8GB RAM, y GPU GTX 1050', 2600000, 1, 1),
+('PC Gamer Kappa', 'PC de gama alta con procesador Ryzen 9, 64GB RAM, y GPU RTX 3080 Ti', 2800000, 1, 2);
+
+INSERT INTO `producto`(`nombre`, `descripcion`, `precio`, `id_categoria`, `id_administrador`) VALUES 
+('Teclado Mecánico Corsair', 'Teclado mecánico con retroiluminación RGB y switches Cherry MX Red', 120000, 2, 1),
+('Mouse Logitech G502', 'Mouse gamer con sensor HERO 25K, 11 botones programables y peso ajustable', 80000, 2, 2),
+('Teclado Razer Huntsman', 'Teclado óptico con switches Razer y retroiluminación RGB', 150000, 2, 3),
+('Mouse Razer DeathAdder', 'Mouse gamer con sensor óptico y diseño ergonómico', 70000, 2, 4),
+('Teclado HyperX Alloy FPS', 'Teclado mecánico con switches Cherry MX Blue y estructura de acero', 100000, 2, 1),
+('Mouse SteelSeries Rival 600', 'Mouse gamer con sensor dual TrueMove3+ y peso ajustable', 90000, 2, 2),
+('Teclado Logitech G Pro X', 'Teclado mecánico con switches intercambiables y retroiluminación RGB', 130000, 2, 3),
+('Mouse Corsair Dark Core', 'Mouse gamer inalámbrico con sensor óptico y retroiluminación RGB', 100000, 2, 4),
+('Teclado Roccat Vulcan', 'Teclado mecánico con switches Titan y retroiluminación AIMO', 140000, 2, 1),
+('Mouse Glorious Model O', 'Mouse gamer ultraligero con sensor óptico y cable flexible', 50000, 2, 2);
+
+INSERT INTO `producto` (`nombre`, `descripcion`, `precio`, `id_categoria`, `id_administrador`) VALUES
+('Teclado Logitech G Pro X', 'Teclado mecánico con retroiluminación RGB', 130000, 3, 1),
+('Ratón Razer DeathAdder V2', 'Ratón con sensibilidad de 20,000 DPI y 7 botones programables', 80000, 3, 1),
+('Auriculares Corsair HS70 Wireless', 'Auriculares inalámbricos con sonido envolvente 7.1 y micrófono desmontable', 100000, 3, 2),
+('Monitor ASUS ROG Swift PG259QN', 'Monitor 1440p con frecuencia de 360Hz y G-Sync', 100000, 3, 2),
+('Silla Secretlab Omega 2020', 'Silla ergonómica con material de PU y soporte avanzado', 400000, 3, 3),
+('Mousepad SteelSeries QcK Prism', 'Mousepad con iluminación RGB y superficie textil', 60000, 3, 3),
+('Webcam Logitech C920', 'Webcam HD 1080p con micrófono integrado', 70000, 3, 1),
+('Teclado mecánico Razer BlackWidow', 'Teclado mecánico con switches Razer Green y retroiluminación', 150000, 3, 2),
+('Auriculares HyperX Cloud II', 'Auriculares con sonido envolvente 7.1 y almohadillas de memoria', 90000, 3, 2),
+('Monitor Dell Alienware AW2521H', 'Monitor 360Hz con tecnología G-Sync y panel IPS', 120000, 3, 3);
+
+
+-- INSERT DE DATOS inventario
+
+INSERT INTO `inventario`(`cantidad`, `id_producto`, `id_administrador`) VALUES 
+(50, 1, 1),
+(30, 2, 2),
+(20, 3, 3),
+(40, 4, 4),
+(10, 5, 1),
+(25, 6, 2),
+(35, 7, 3),
+(15, 8, 4),
+(45, 9, 1),
+(5, 10, 2),
+(50, 11, 1),
+(30, 12, 2),
+(20, 13, 3),
+(40, 14, 4),
+(10, 15, 1),
+(25, 16, 2),
+(35, 17, 3),
+(15, 18, 4),
+(45, 19, 1),
+(5, 20, 2),
+(55, 21, 1),
+(35, 22, 2),
+(25, 23, 3),
+(45, 24, 4),
+(15, 25, 1),
+(30, 26, 2),
+(40, 27, 3),
+(20, 28, 4),
+(50, 29, 1),
+(10, 30, 2);
+
+-- INSERT INTO DE ORDENES
+
+INSERT INTO `ordenes` (`id_orden`, `id_usuario`, `id_producto`, `fecha`, `cantidad`, `total`)
+VALUES 
+(1, 1, 11, '2024-07-28', 2, 260),   
+(2, 2, 12, '2024-07-28', 1, 130),   
+(3, 3, 13, '2024-07-28', 3, 60),   
+(4, 4, 14, '2024-07-28', 4, 160),   
+(5, 5, 15, '2024-07-28', 1, 100),   
+(6, 6, 16, '2024-07-28', 2, 200),  
+(7, 7, 17, '2024-07-28', 1, 40),    
+(8, 8, 18, '2024-07-28', 5, 750),   
+(9, 9, 19, '2024-07-28', 3, 75),    
+(10, 10, 20, '2024-07-28', 2, 120), 
+(11, 1, 21, '2024-07-28', 3, 165),   
+(12, 2, 22, '2024-07-28', 2, 70),    
+(13, 3, 23, '2024-07-28', 4, 100),   
+(14, 4, 24, '2024-07-28', 5, 225),   
+(15, 5, 25, '2024-07-28', 1, 150),  
+(16, 6, 26, '2024-07-28', 2, 120),   
+(17, 7, 27, '2024-07-28', 3, 120),   
+(18, 8, 28, '2024-07-28', 4, 200),  
+(19, 9, 29, '2024-07-28', 2, 90),    
+(20, 10, 30, '2024-07-28', 1, 60);  
+
+
+
